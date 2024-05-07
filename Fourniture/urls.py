@@ -27,10 +27,10 @@ urlpatterns = [
     path('Home/<str:slug>', home, name="home"),
     path('Home/<str:slug>/createList', createListForm, name="createList"),
     path('Home/<str:slug>/createList/creation', creationList, name="creationList"),
-    path('Home/<str:slug>/<str:list>/', addObject, name="addObject"),
-    path('Home/<str:slug>/<str:list>/addingObject', addingObject, name="addingObject"),
-    path('object/<str:slug>/<str:list>/<int:id>', deleteObject, name="deleteObject"),
-    path('list/<str:slug>/<str:list>', deleteList, name="supList")
+    path('Home/<str:slug>/<int:list>/', addObject, name="addObject"),
+    path('Home/<str:slug>/<int:list>/addingObject', addingObject, name="addingObject"),
+    path('object/<str:slug>/<int:list>/<int:id>', deleteObject, name="deleteObject"),
+    path('list/<str:slug>/<int:list>', deleteList, name="supList")
 ]
 
 urlpatterns += staticfiles_urlpatterns()

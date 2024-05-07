@@ -3,12 +3,12 @@ from .models import *
 
 # Register your models here.
 class MemberAdmin(admin.ModelAdmin):
-    list_display = ("firstName", "lastName", "slug", "password", "email")
+    list_display = ("pk", "firstName", "lastName", "slug", "password", "email", "slug")
     prepopulated_fields = {"slug" : ("firstName", "lastName")}
 admin.site.register(Member, MemberAdmin)
 
 class ListAdmin(admin.ModelAdmin):
-    list_display = ("title", "date", "member")
+    list_display = ("pk", "title", "date", "member")
     prepopulated_fields = {"slug" : ("title",)}
 admin.site.register(List, ListAdmin)
 

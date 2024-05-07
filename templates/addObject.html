@@ -45,9 +45,9 @@
             {% if edit %}
                     <form method="POST" action="{% url 'addingObject' list=list slug=slug %}">
                         {% csrf_token %}
-                        <input type="text" name="name" placeholder="Nom du produit">
-                        <input type="number" name="price" placeholder="Prix unitaire">
-                        <input type="number" name="number" placeholder="Nombre"> 
+                        <input style="background-color: white;" type="text" name="name" placeholder="Nom du produit">
+                        <input style="background-color: white;" type="number" name="price" placeholder="Prix unitaire">
+                        <input style="background-color: white;" type="number" name="number" placeholder="Nombre"> 
                         </br></br>
                         <input type="submit" value="Ajouter"> </br></br>
                     </form>
@@ -79,9 +79,10 @@
             {% endif %}
           </table>
           <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <a href="{% url 'home' slug=slug %}" style="color:white;text-decoration: none;">
             <button type="button" class="btn btn-outline-secondary btn-lg px-4">
-                <a href="{% url 'home' slug=slug %}" style="color:white;text-decoration: none;">Accueil</a>
-            </button>
+                Accueil
+            </button></a>
           </div>
         </div>
       </div>

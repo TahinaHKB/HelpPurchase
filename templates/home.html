@@ -51,10 +51,10 @@
             <tbody>
                 {% for l in list %}
                 <tr>
-                    <td><a href="{% url 'addObject' list=l.slug slug=slugMember %}"
+                    <td><a href="{% url 'addObject' list=l.pk slug=slugMember %}"
                         style="text-decoration: none;">{{ l.title }}</a></td>
                     <td>{{ l.date }}</td>
-                    <td><a href="{% url 'supList' list=l.slug slug=slugMember%}"
+                    <td><a href="{% url 'supList' list=l.pk slug=slugMember%}"
                         style="text-decoration: none; color: red;">X</a></td>
                 </tr>
                 {% endfor %}
@@ -62,12 +62,12 @@
           </table>
           {% endif %}
           <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-            <button type="button" class="btn btn-primary btn-lg px-4 gap-3">
-                <a href="{% url 'createList' slug=slugMember %}" style="color:white;text-decoration: none;">Créer une liste</a>
-            </button>
-            <button type="button" class="btn btn-outline-secondary btn-lg px-4">
-                <a href="{% url 'signIn' %}" style="color:white;text-decoration: none;">Deconnexion</a>
-            </button>
+            <a href="{% url 'createList' slug=slugMember %}" style="color:white;text-decoration: none;"><button type="button" class="btn btn-primary btn-lg px-4 gap-3">
+                Créer une liste
+            </button></a>
+            <a href="{% url 'signIn' %}" style="color:white;text-decoration: none;"><button type="button" class="btn btn-outline-secondary btn-lg px-4">
+                Deconnexion
+            </button></a>
           </div>
         </div>
       </div>

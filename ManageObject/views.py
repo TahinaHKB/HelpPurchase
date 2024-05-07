@@ -15,15 +15,17 @@ def signIn(request):
     return render(request, "SignIn.html")
 
 def login(request):
-    member = Member.objects.get(email=request.POST['email'])
-    if(member.password == request.POST['password']):
-        return redirect("/Home/"+member.slug)
+    if Member.objects.filter(email = request.POST['email']).exists() : 
+        member = Member.objects.get(email=request.POST['email'])
+        if(member.password == request.POST['password']):
+            return redirect("/Home/"+member.slug)
     msg = "Email ou mot de passe incorrecte"
     return render(request, "SignIn.html", {"msg" : msg})
 
 def home(request, slug):
     member = Member.objects.get(slug = slug)
-    list = List.objects.filter(member=member.pk)
+    list = List.objects.filter(member=member.pk).order_by("-pk")
+
     context = {
         "firstName" : member.firstName,
         "lastName" : member.lastName,
@@ -45,10 +47,11 @@ def creationList(request, slug):
     list.member = member
     list.save()
     list = List.objects.last()
-    return redirect("/Home/"+slug+"/"+list.slug)
+    l = str(list.pk)
+    return redirect("/Home/"+slug+"/"+l)
     
 def addObject(request, slug, list):
-    list = List.objects.get(slug=list)
+    list = List.objects.get(pk=list)
     object = list.product_set.all()
     sum = 0
     for o in object : 
@@ -59,7 +62,7 @@ def addObject(request, slug, list):
         edit = False 
     context = {
         "edit" : edit,
-        "list" : list.slug,
+        "list" : list.pk,
         "slug" : slug,
         "object" : object,
         "sum" : sum,
@@ -75,19 +78,22 @@ def addingObject(request, slug, list):
         object.name = request.POST['name']
         object.price = request.POST['price']
         object.number = request.POST['number']
-        list = List.objects.get(slug=list)
+        list = List.objects.get(pk=list)
         object.list = list
         object.save()
-        return redirect("/Home/"+slug+"/"+list.slug)
+        l = str(list.pk)
+        return redirect("/Home/"+slug+"/"+l)
     else : 
-        return redirect("/Home/"+slug+"/"+list+"/")
+        l = str(list)
+        return redirect("/Home/"+slug+"/"+l+"/")
     
 def deleteObject(request, slug, list, id):
     object = Product.objects.get(pk=id)
     object.delete()
-    return redirect("/Home/"+slug+"/"+list)
+    l = str(list)
+    return redirect("/Home/"+slug+"/"+l)
 
 def deleteList(request, slug, list):
-    list = List.objects.get(slug=list)
+    list = List.objects.get(pk=list)
     list.delete()
     return redirect("/Home/"+slug)
