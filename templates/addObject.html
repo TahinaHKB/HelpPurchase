@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block header%}
+<style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+
+  
+  <!-- Custom styles for this template -->
+  {% load static %}
+  <link href="{% static 'heroes.css' %}" rel="stylesheet">
+{% endblock%}
+
+{% block content%}
+<body class="d-flex h-100 text-center text-white bg-dark">
+    <div class="px-4 py-5 my-5 text-center">
+        <h1 class="display-5 fw-bold">
+            {% if edit %}
+            Gérer vos objets
+            {% else %}
+            Visionner vos objets
+            {% endif%}
+        </h1>
+        <div class="col-lg-6 mx-auto">
+          <p class="lead mb-4">
+            Ici, vous verrez tous vos objets correspondant à la liste, vous pourriez ajouter et suprimer 
+            des objets, uniquement le jour où vous créez la liste. Simpliez vos courses avec Fournitures.
+          </p>
+          <table class="table table-sm table-bordered" style="color:white">
+            <div>
+                <h1>Total : {{ sum }} Ar</1>
+            </div>
+            {% if edit %}
+                    <form method="POST" action="{% url 'addingObject' list=list slug=slug %}">
+                        {% csrf_token %}
+                        <input type="text" name="name" placeholder="Nom du produit">
+                        <input type="number" name="price" placeholder="Prix unitaire">
+                        <input type="number" name="number" placeholder="Nombre"> 
+                        </br></br>
+                        <input type="submit" value="Ajouter"> </br></br>
+                    </form>
+                {% endif %}
+            {% if object %}
+            <thead>
+                <tr>
+                  <th scope="col">Produit</th>
+                  <th scope="col">Prix ( Ar )</th>
+                  <th scope="col">Nombre</th>
+                  {% if edit %}
+                  <th scope="col">Action</th>
+                  {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for o in object %}
+                    <tr>
+                        <td>{{ o.name }}</td>
+                        <td>{{ o.price }}</td>
+                        <td>{{ o.number }}</td>
+                    {% if edit %}
+                        <td> <a href="{% url 'deleteObject' list=list slug=slug id=o.pk %}"
+                            style="color: red; text-decoration: none;">X</a></td>
+                    {% endif %}      
+                    </tr>
+                {% endfor%}
+            </tbody>
+            {% endif %}
+          </table>
+          <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <button type="button" class="btn btn-outline-secondary btn-lg px-4">
+                <a href="{% url 'home' slug=slug %}" style="color:white;text-decoration: none;">Accueil</a>
+            </button>
+          </div>
+        </div>
+      </div>
+</body>
+{% endblock%}

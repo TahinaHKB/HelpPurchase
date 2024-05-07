@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block header%}
+<style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+
+  
+  <!-- Custom styles for this template -->
+  {% load static %}
+  <link href="{% static 'heroes.css' %}" rel="stylesheet">
+{% endblock%}
+
+{% block content%}
+<body class="d-flex h-100 text-center text-white bg-dark">
+    <div class="px-4 py-5 my-5 text-center">
+        <h1 class="display-5 fw-bold">Bienvenue {{ firstName}} {{ lastName }} </h1>
+        <div class="col-lg-6 mx-auto">
+          <p class="lead mb-4">
+            Simpliez vos courses avec Fournitures. Nous vous aidons dans vos comptes durant vos achats, 
+            commencer créer une liste, choisissez un titre convenable. Ensuite, commencer à insérer l'information
+            de vos achats dans la liste, nous vous donnerons automatiquement la somme total de votre course. 
+            Vous pourriez changer la liste durant la journée où vous l'avez créée. Nous sauvegarderons vos achats
+            et vous pourez jeter un coup d'oeil à vos anciens achats à chaque instant.
+          </p>
+          {% if not list %}
+          <p class="lead mb-4">
+            Vous n'avez pas encore de liste
+          </p>
+          {% else %}
+          <table class="table table-sm table-bordered" style="color:white">
+            <thead>
+            <tr>
+              <th scope="col">Titre</th>
+              <th scope="col">Date</th>
+              <th scope="col">Supprimer</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for l in list %}
+                <tr>
+                    <td><a href="{% url 'addObject' list=l.slug slug=slugMember %}"
+                        style="text-decoration: none;">{{ l.title }}</a></td>
+                    <td>{{ l.date }}</td>
+                    <td><a href="{% url 'supList' list=l.slug slug=slugMember%}"
+                        style="text-decoration: none; color: red;">X</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+          {% endif %}
+          <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <button type="button" class="btn btn-primary btn-lg px-4 gap-3">
+                <a href="{% url 'createList' slug=slugMember %}" style="color:white;text-decoration: none;">Créer une liste</a>
+            </button>
+            <button type="button" class="btn btn-outline-secondary btn-lg px-4">
+                <a href="{% url 'signIn' %}" style="color:white;text-decoration: none;">Deconnexion</a>
+            </button>
+          </div>
+        </div>
+      </div>
+</body>
+{% endblock%}
